@@ -1,0 +1,22 @@
+{
+  "name": "vue-bank-app",
+  "version": "1.0.0",
+  "description": "Vue-mobile-bank",
+  "main": "index.js",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.3.4",
+    "vue-router": "^4.2.4",
+    "pinia": "^2.1.6",
+    "vant": "^4.6.2",
+    "@vant/touch-emulator": "^1.4.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^4.3.4",
+    "vite": "^4.4.9"
+  }
+}
