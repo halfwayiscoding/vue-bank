@@ -13,33 +13,30 @@
   </div>
 </template>
 
-<script>
+<script setup>
+// 🚀 使用 <script setup> 语法 - Vue 3.2+ 推荐写法
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    // 创建响应式数据
-    const username = ref('')
-    
-    // 在JavaScript中使用时，需要.value
-    const changeName = () => {
-      username.value = '张三'  // 必须用.value
-    }
-    
-    const clearName = () => {
-      username.value = ''     // 必须用.value
-    }
-    
-    // 也可以读取值
-    const logName = () => {
-      console.log('当前用户名：', username.value)  // 读取也要用.value
-    }
-    
-    return {
-      username,    // 返回给模板使用
-      changeName,
-      clearName
-    }
-  }
+// 创建响应式数据 - 自动暴露给模板
+const username = ref('')
+
+// 在JavaScript中使用时，需要.value
+const changeName = () => {
+  username.value = '张三'  // 必须用.value
 }
+
+const clearName = () => {
+  username.value = ''     // 必须用.value
+}
+
+// 也可以读取值
+const logName = () => {
+  console.log('当前用户名：', username.value)  // 读取也要用.value
+}
+
+// 🎯 script setup 的优势：
+// 1. 无需 export default
+// 2. 无需 setup() 函数
+// 3. 无需 return 语句
+// 4. 所有顶层变量自动暴露给模板
 </script>

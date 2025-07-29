@@ -126,259 +126,235 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, reactive, computed, onMounted, onUnmounted, nextTick } from 'vue'
 import { useRouter } from 'vue-router'
 
-export default {
-  name: 'LoginPage',
-  setup() {
-    const router = useRouter()
-    
-    // ===== 响应式数据 =====
-    const currentTime = ref('')
-    const isLogoAnimated = ref(false)
-    const focusedField = ref('')
-    const showPassword = ref(false)
-    const rememberPassword = ref(false)
-    const isLoading = ref(false)
-    const biometricSupported = ref(true)
-    const biometricType = ref('face') // 'face' 或 'touch'
-    
-    // 表单数据（使用reactive创建响应式对象）
-    const formData = reactive({
-      username: '',
-      password: ''
-    })
-    
-    // 错误信息
-    const errors = reactive({
-      username: '',
-      password: ''
-    })
-    
-    // Toast消息
-    const toast = reactive({
-      show: false,
-      message: '',
-      type: 'success' // 'success', 'error', 'warning'
-    })
-    
-    // 应用配置
-    const appConfig = reactive({
-      title: '招商银行',
-      subtitle: '一网通用户登录',
-      version: 'v8.8.8'
-    })
-    
-    // DOM引用
-    const usernameInput = ref(null)
-    const passwordInput = ref(null)
-    
-    // ===== 计算属性 =====
-    const isFormValid = computed(() => {
-      return formData.username.length > 0 && 
-             formData.password.length > 0 && 
-             !errors.username && 
-             !errors.password
-    })
-    
-    // ===== 方法 =====
-    
-    // 更新时间
-    const updateTime = () => {
-      const now = new Date()
-      currentTime.value = now.toLocaleTimeString('zh-CN', { 
-        hour: '2-digit', 
-        minute: '2-digit' 
-      })
-    }
-    
-    // 表单验证
-    const validateField = (field) => {
-      switch (field) {
-        case 'username':
-          if (!formData.username) {
-            errors.username = '请输入用户名'
-          } else if (formData.username.length < 3) {
-            errors.username = '用户名至少3个字符'
-          } else {
-            errors.username = ''
-          }
-          break
-        case 'password':
-          if (!formData.password) {
-            errors.password = '请输入密码'
-          } else if (formData.password.length < 6) {
-            errors.password = '密码至少6个字符'
-          } else {
-            errors.password = ''
-          }
-          break
+const router = useRouter()
+
+// ===== 响应式数据 =====
+const currentTime = ref('')
+const isLogoAnimated = ref(false)
+const focusedField = ref('')
+const showPassword = ref(false)
+const rememberPassword = ref(false)
+const isLoading = ref(false)
+const biometricSupported = ref(true)
+const biometricType = ref('face') // 'face' 或 'touch'
+
+// 表单数据
+const formData = reactive({
+  username: '',
+  password: ''
+})
+
+// 错误信息
+const errors = reactive({
+  username: '',
+  password: ''
+})
+
+// Toast消息
+const toast = reactive({
+  show: false,
+  message: '',
+  type: 'success' // 'success', 'error', 'warning'
+})
+
+// 应用配置
+const appConfig = reactive({
+  title: '招商银行',
+  subtitle: '一网通用户登录',
+  version: 'v8.8.8'
+})
+
+// DOM引用
+const usernameInput = ref(null)
+const passwordInput = ref(null)
+
+// ===== 计算属性 =====
+const isFormValid = computed(() => {
+  return formData.username.length > 0 && 
+         formData.password.length > 0 && 
+         !errors.username && 
+         !errors.password
+})
+
+// ===== 方法 =====
+
+// 更新时间
+const updateTime = () => {
+  const now = new Date()
+  currentTime.value = now.toLocaleTimeString('zh-CN', { 
+    hour: '2-digit', 
+    minute: '2-digit' 
+  })
+}
+
+// 表单验证
+const validateField = (field) => {
+  switch (field) {
+    case 'username':
+      if (!formData.username) {
+        errors.username = '请输入用户名'
+        return false
       }
-    }
-    
-    // 焦点处理
-    const handleFocus = (field) => {
-      focusedField.value = field
-    }
-    
-    const handleBlur = (field) => {
-      focusedField.value = ''
-      validateField(field)
-    }
-    
-    // 清除错误
-    const clearError = (field) => {
-      errors[field] = ''
-    }
-    
-    // 清除输入框
-    const clearField = (field) => {
-      formData[field] = ''
-      clearError(field)
-    }
-    
-    // 切换密码显示
-    const togglePassword = () => {
-      showPassword.value = !showPassword.value
-    }
-    
-    // 显示Toast
-    const showToast = (message, type = 'success') => {
-      toast.message = message
-      toast.type = type
-      toast.show = true
-      
-      setTimeout(() => {
-        toast.show = false
-      }, 3000)
-    }
-    
-    // 登录处理
-    const handleLogin = async () => {
-      // 验证所有字段
-      validateField('username')
-      validateField('password')
-      
-      if (!isFormValid.value) {
-        showToast('请检查输入信息', 'error')
-        return
+      if (formData.username.length < 3) {
+        errors.username = '用户名至少3个字符'
+        return false
       }
-      
-      isLoading.value = true
-      
-      try {
-        // 模拟API调用
-        await new Promise(resolve => setTimeout(resolve, 2000))
-        
-        if (formData.username === 'demo' && formData.password === '123456') {
-          showToast('登录成功！')
-          
-          // 保存登录状态
-          if (rememberPassword.value) {
-            localStorage.setItem('rememberedUser', formData.username)
-          }
-          
-          // 延迟跳转，让用户看到成功消息
-          setTimeout(() => {
-            router.push('/home')
-          }, 1000)
-        } else {
-          showToast('用户名或密码错误', 'error')
-        }
-      } catch (error) {
-        showToast('登录失败，请重试', 'error')
-      } finally {
-        isLoading.value = false
+      errors.username = ''
+      return true
+    
+    case 'password':
+      if (!formData.password) {
+        errors.password = '请输入密码'
+        return false
       }
-    }
-    
-    // 忘记密码
-    const handleForgotPassword = () => {
-      showToast('忘记密码功能开发中', 'warning')
-    }
-    
-    // 注册
-    const handleRegister = () => {
-      showToast('注册功能开发中', 'warning')
-    }
-    
-    // 生物识别登录
-    const handleBiometricLogin = () => {
-      showToast(`${biometricType.value === 'face' ? 'Face ID' : 'Touch ID'}登录功能开发中`, 'warning')
-    }
-    
-    // ===== 生命周期 =====
-    let timeInterval = null
-    
-    onMounted(async () => {
-      // 启动时间更新
-      updateTime()
-      timeInterval = setInterval(updateTime, 1000)
-      
-      // Logo动画
-      setTimeout(() => {
-        isLogoAnimated.value = true
-      }, 500)
-      
-      // 检查是否有记住的用户名
-      const rememberedUser = localStorage.getItem('rememberedUser')
-      if (rememberedUser) {
-        formData.username = rememberedUser
-        rememberPassword.value = true
-        // 自动聚焦到密码框
-        await nextTick()
-        passwordInput.value?.focus()
-      } else {
-        // 自动聚焦到用户名框
-        await nextTick()
-        usernameInput.value?.focus()
+      if (formData.password.length < 6) {
+        errors.password = '密码至少6个字符'
+        return false
       }
-    })
+      errors.password = ''
+      return true
     
-    onUnmounted(() => {
-      if (timeInterval) {
-        clearInterval(timeInterval)
-      }
-    })
-    
-    // ===== 返回给模板使用 =====
-    return {
-      // 数据
-      currentTime,
-      isLogoAnimated,
-      focusedField,
-      showPassword,
-      rememberPassword,
-      isLoading,
-      biometricSupported,
-      biometricType,
-      formData,
-      errors,
-      toast,
-      appConfig,
-      
-      // DOM引用
-      usernameInput,
-      passwordInput,
-      
-      // 计算属性
-      isFormValid,
-      
-      // 方法
-      handleFocus,
-      handleBlur,
-      clearError,
-      clearField,
-      togglePassword,
-      handleLogin,
-      handleForgotPassword,
-      handleRegister,
-      handleBiometricLogin
-    }
+    default:
+      return true
   }
 }
+
+// 焦点处理
+const handleFocus = (field) => {
+  focusedField.value = field
+}
+
+const handleBlur = (field) => {
+  focusedField.value = ''
+  validateField(field)
+}
+
+// 清除错误
+const clearError = (field) => {
+  errors[field] = ''
+}
+
+// 清除字段
+const clearField = (field) => {
+  formData[field] = ''
+  clearError(field)
+}
+
+// 切换密码显示
+const togglePassword = () => {
+  showPassword.value = !showPassword.value
+}
+
+// 显示Toast
+const showToastMessage = (message, type = 'success') => {
+  toast.message = message
+  toast.type = type
+  toast.show = true
+  
+  setTimeout(() => {
+    toast.show = false
+  }, 3000)
+}
+
+// 登录处理
+const handleLogin = async () => {
+  // 验证所有字段
+  const isUsernameValid = validateField('username')
+  const isPasswordValid = validateField('password')
+  
+  if (!isUsernameValid || !isPasswordValid) {
+    showToastMessage('请检查输入信息', 'error')
+    return
+  }
+  
+  isLoading.value = true
+  
+  try {
+    // 模拟登录API调用
+    await new Promise(resolve => setTimeout(resolve, 2000))
+    
+    // 模拟登录验证
+    if (formData.username === 'admin' && formData.password === '123456') {
+      showToastMessage('登录成功！', 'success')
+      
+      // 保存登录状态
+      localStorage.setItem('isLoggedIn', 'true')
+      localStorage.setItem('username', formData.username)
+      
+      if (rememberPassword.value) {
+        localStorage.setItem('rememberedPassword', formData.password)
+      }
+      
+      // 延迟跳转，让用户看到成功消息
+      setTimeout(() => {
+        router.push('/home')
+      }, 1000)
+      
+    } else {
+      showToastMessage('用户名或密码错误', 'error')
+    }
+    
+  } catch (error) {
+    showToastMessage('登录失败，请重试', 'error')
+  } finally {
+    isLoading.value = false
+  }
+}
+
+// 生物识别登录
+const handleBiometricLogin = () => {
+  showToastMessage(`${biometricType.value === 'face' ? 'Face ID' : 'Touch ID'}登录功能`, 'warning')
+}
+
+// 忘记密码
+const handleForgotPassword = () => {
+  showToastMessage('忘记密码功能', 'warning')
+}
+
+// 注册账户
+const handleRegister = () => {
+  showToastMessage('注册账户功能', 'warning')
+}
+
+// 定时器ID
+let timeInterval = null
+
+// ===== 生命周期 =====
+onMounted(() => {
+  // 启动Logo动画
+  setTimeout(() => {
+    isLogoAnimated.value = true
+  }, 500)
+  
+  // 开始更新时间
+  updateTime()
+  timeInterval = setInterval(updateTime, 1000)
+  
+  // 检查是否有记住的密码
+  const rememberedPassword = localStorage.getItem('rememberedPassword')
+  if (rememberedPassword) {
+    formData.password = rememberedPassword
+    rememberPassword.value = true
+  }
+  
+  // 自动聚焦到用户名输入框
+  nextTick(() => {
+    if (usernameInput.value) {
+      usernameInput.value.focus()
+    }
+  })
+})
+
+onUnmounted(() => {
+  // 清理定时器
+  if (timeInterval) {
+    clearInterval(timeInterval)
+  }
+})
 </script>
 
 <style scoped>
@@ -745,19 +721,19 @@ export default {
   font-size: 12px;
 }
 
-/* ===== Toast消息 ===== */
+/* ===== Toast ===== */
 .toast {
   position: fixed;
-  top: 50px;
+  top: 20px;
   left: 50%;
   transform: translateX(-50%);
-  background: #333;
-  color: white;
   padding: 12px 20px;
   border-radius: 8px;
+  color: white;
   font-size: 14px;
   z-index: 1000;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  max-width: 300px;
+  text-align: center;
 }
 
 .toast.success {
@@ -773,68 +749,12 @@ export default {
   color: #333;
 }
 
-/* Toast动画 */
 .toast-enter-active, .toast-leave-active {
   transition: all 0.3s ease;
 }
 
-.toast-enter-from {
+.toast-enter-from, .toast-leave-to {
   opacity: 0;
   transform: translateX(-50%) translateY(-20px);
-}
-
-.toast-leave-to {
-  opacity: 0;
-  transform: translateX(-50%) translateY(-20px);
-}
-
-/* ===== 响应式设计 ===== */
-@media (max-width: 480px) {
-  .main-content {
-    padding: 15px;
-  }
-  
-  .form-container {
-    padding: 20px;
-    border-radius: 15px;
-  }
-  
-  .app-title {
-    font-size: 24px;
-  }
-  
-  .logo-circle {
-    width: 60px;
-    height: 60px;
-  }
-  
-  .logo-text {
-    font-size: 20px;
-  }
-}
-
-/* ===== 深色模式支持 ===== */
-@media (prefers-color-scheme: dark) {
-  .form-container {
-    background: rgba(30, 30, 30, 0.95);
-    color: #e9ecef;
-  }
-  
-  .input-wrapper {
-    background: #2d3748;
-    border-color: #4a5568;
-  }
-  
-  .form-input {
-    color: #e9ecef;
-  }
-  
-  .form-input::placeholder {
-    color: #a0aec0;
-  }
-  
-  .input-icon {
-    color: #a0aec0;
-  }
 }
 </style>

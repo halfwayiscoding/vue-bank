@@ -6,10 +6,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'App'
-}
+<script setup>
+// App组件作为根组件，通常不需要复杂的逻辑
+// 使用 <script setup> 语法保持现代化
 </script>
 
 <style>

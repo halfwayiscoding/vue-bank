@@ -89,95 +89,81 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import { showToast } from 'vant'
 
-export default {
-  name: 'Cards',
-  setup() {
-    const activeTab = ref(2)
+const activeTab = ref(2)
 
-    // 卡片数据
-    const cards = ref([
-      {
-        id: 1,
-        name: '一卡通储蓄卡',
-        bank: '招商银行',
-        number: '**** **** **** 8888',
-        holder: '张三',
-        expiry: '12/28',
-        type: 'debit',
-        status: '正常'
-      },
-      {
-        id: 2,
-        name: '信用卡金卡',
-        bank: '招商银行',
-        number: '**** **** **** 6666',
-        holder: '张三',
-        expiry: '08/27',
-        type: 'credit',
-        status: '正常'
-      },
-      {
-        id: 3,
-        name: '理财金卡',
-        bank: '招商银行',
-        number: '**** **** **** 9999',
-        holder: '张三',
-        expiry: '03/29',
-        type: 'wealth',
-        status: '冻结'
-      }
-    ])
-
-    // 卡片功能
-    const cardFunctions = ref([
-      { name: '挂失', icon: 'warning-o', action: 'reportLoss' },
-      { name: '解挂', icon: 'success', action: 'unfreeze' },
-      { name: '设置密码', icon: 'lock', action: 'setPassword' },
-      { name: '额度调整', icon: 'balance-o', action: 'adjustLimit' },
-      { name: '账单查询', icon: 'orders-o', action: 'viewBill' },
-      { name: '分期还款', icon: 'gold-coin-o', action: 'installment' },
-      { name: '积分查询', icon: 'star-o', action: 'viewPoints' },
-      { name: '更多', icon: 'ellipsis', action: 'more' }
-    ])
-
-    // 处理功能点击
-    const handleFunction = (action) => {
-      const actionMap = {
-        reportLoss: '挂失功能',
-        unfreeze: '解挂功能',
-        setPassword: '设置密码',
-        adjustLimit: '额度调整',
-        viewBill: '账单查询',
-        installment: '分期还款',
-        viewPoints: '积分查询',
-        more: '更多功能'
-      }
-      showToast(actionMap[action] || '功能开发中')
-    }
-
-    // 显示卡片详情
-    const showCardDetail = (card) => {
-      showToast(`查看 ${card.name} 详情`)
-    }
-
-    // 申请新卡
-    const addCard = () => {
-      showToast('申请新卡功能')
-    }
-
-    return {
-      activeTab,
-      cards,
-      cardFunctions,
-      handleFunction,
-      showCardDetail,
-      addCard
-    }
+// 卡片数据
+const cards = ref([
+  {
+    id: 1,
+    name: '一卡通储蓄卡',
+    bank: '招商银行',
+    number: '**** **** **** 8888',
+    holder: '张三',
+    expiry: '12/28',
+    type: 'debit',
+    status: '正常'
+  },
+  {
+    id: 2,
+    name: '信用卡金卡',
+    bank: '招商银行',
+    number: '**** **** **** 6666',
+    holder: '张三',
+    expiry: '08/27',
+    type: 'credit',
+    status: '正常'
+  },
+  {
+    id: 3,
+    name: '理财金卡',
+    bank: '招商银行',
+    number: '**** **** **** 9999',
+    holder: '张三',
+    expiry: '03/29',
+    type: 'wealth',
+    status: '冻结'
   }
+])
+
+// 卡片功能
+const cardFunctions = ref([
+  { name: '挂失', icon: 'warning-o', action: 'reportLoss' },
+  { name: '解挂', icon: 'success', action: 'unfreeze' },
+  { name: '设置密码', icon: 'lock', action: 'setPassword' },
+  { name: '额度调整', icon: 'balance-o', action: 'adjustLimit' },
+  { name: '账单查询', icon: 'orders-o', action: 'viewBill' },
+  { name: '分期还款', icon: 'gold-coin-o', action: 'installment' },
+  { name: '积分查询', icon: 'star-o', action: 'viewPoints' },
+  { name: '更多', icon: 'ellipsis', action: 'more' }
+])
+
+// 处理功能点击
+const handleFunction = (action) => {
+  const actionMap = {
+    reportLoss: '挂失功能',
+    unfreeze: '解挂功能',
+    setPassword: '设置密码',
+    adjustLimit: '额度调整',
+    viewBill: '账单查询',
+    installment: '分期还款',
+    viewPoints: '积分查询',
+    more: '更多功能'
+  }
+  showToast(actionMap[action] || '功能开发中')
+}
+
+// 显示卡片详情
+const showCardDetail = (card) => {
+  showToast(`查看 ${card.name} 详情`)
+}
+
+// 申请新卡
+const addCard = () => {
+  showToast('申请新卡功能')
 }
 </script>
 

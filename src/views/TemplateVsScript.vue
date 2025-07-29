@@ -27,36 +27,25 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const username = ref('')
-    const password = ref('')
-    
-    const checkLogin = () => {
-      // 在JavaScript中：必须用.value
-      if (username.value === 'demo' && password.value === '123456') {
-        alert('登录成功！')
-      } else {
-        alert('登录失败！')
-      }
-    }
-    
-    const showInConsole = () => {
-      // 在JavaScript中：必须用.value
-      console.log('用户名：', username.value)
-      console.log('密码：', password.value)
-      console.log('登录条件：', username.value === 'demo' && password.value === '123456')
-    }
-    
-    return {
-      username,
-      password,
-      checkLogin,
-      showInConsole
-    }
+const username = ref('')
+const password = ref('')
+
+const checkLogin = () => {
+  // 在JavaScript中：必须用.value
+  if (username.value === 'demo' && password.value === '123456') {
+    alert('登录成功！')
+  } else {
+    alert('登录失败！')
   }
+}
+
+const showInConsole = () => {
+  // 在JavaScript中：必须用.value
+  console.log('用户名：', username.value)
+  console.log('密码：', password.value)
+  console.log('登录条件：', username.value === 'demo' && password.value === '123456')
 }
 </script>

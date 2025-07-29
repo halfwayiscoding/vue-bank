@@ -6,6 +6,10 @@ import Login from '../views/Login.vue'
 import Account from '../views/Account.vue'
 import Transfer from '../views/Transfer.vue'
 import Cards from '../views/Cards.vue'
+import ComputedVsMethod from '../views/ComputedVsMethod.vue'
+import LifecycleDemo from '../views/LifecycleDemo.vue'
+import RenderDemo from '../views/RenderDemo.vue'
+import ComponentDemo from '../views/ComponentDemo.vue'
 
 const routes = [
   {
@@ -36,6 +40,26 @@ const routes = [
     path: '/cards',
     name: 'Cards',
     component: Cards
+  },
+  {
+    path: '/computed-demo',
+    name: 'ComputedDemo',
+    component: ComputedVsMethod
+  },
+  {
+    path: '/lifecycle-demo',
+    name: 'LifecycleDemo',
+    component: LifecycleDemo
+  },
+  {
+    path: '/render-demo',
+    name: 'RenderDemo',
+    component: RenderDemo
+  },
+  {
+    path: '/component-demo',
+    name: 'ComponentDemo',
+    component: ComponentDemo
   }
 ]
 

@@ -55,6 +55,39 @@
         </div>
       </div>
 
+      <!-- 开发者演示区域 -->
+      <div class="developer-section">
+        <div class="section-header">
+          <h3>🛠️ 开发者演示</h3>
+        </div>
+        <div class="demo-grid">
+          <div class="demo-item" @click="goToComponentDemo">
+            <div class="demo-icon component">
+              <van-icon name="apps-o" size="20" />
+            </div>
+            <span>组件基础</span>
+          </div>
+          <div class="demo-item" @click="goToRenderDemo">
+            <div class="demo-icon render">
+              <van-icon name="setting-o" size="20" />
+            </div>
+            <span>Render函数</span>
+          </div>
+          <div class="demo-item" @click="goToLifecycleDemo">
+            <div class="demo-icon lifecycle">
+              <van-icon name="clock-o" size="20" />
+            </div>
+            <span>生命周期</span>
+          </div>
+          <div class="demo-item" @click="goToComputedDemo">
+            <div class="demo-icon computed">
+              <van-icon name="fire-o" size="20" />
+            </div>
+            <span>计算属性</span>
+          </div>
+        </div>
+      </div>
+
       <!-- 交易记录 -->
       <div class="transaction-section">
         <div class="section-header">
@@ -90,77 +123,76 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast } from 'vant'
 
-export default {
-  name: 'Home',
-  setup() {
-    const router = useRouter()
-    const activeTab = ref(0)
-    const balance = ref(128888.88)
-    const balanceVisible = ref(true)
+const router = useRouter()
+const activeTab = ref(0)
+const balance = ref(128888.88)
+const balanceVisible = ref(true)
 
-    // 模拟交易记录数据
-    const recentTransactions = ref([
-      {
-        id: 1,
-        title: '工资发放',
-        time: '今天 14:30',
-        amount: '+8,500.00',
-        type: 'income',
-        icon: 'gold-coin-o'
-      },
-      {
-        id: 2,
-        title: '超市购物',
-        time: '昨天 19:20',
-        amount: '-156.80',
-        type: 'expense',
-        icon: 'shop-o'
-      },
-      {
-        id: 3,
-        title: '转账给张三',
-        time: '昨天 15:45',
-        amount: '-2,000.00',
-        type: 'expense',
-        icon: 'exchange'
-      }
-    ])
-
-    // 切换余额显示/隐藏
-    const toggleBalanceVisibility = () => {
-      balanceVisible.value = !balanceVisible.value
-    }
-
-    // 导航方法
-    const goToTransfer = () => {
-      router.push('/transfer')
-    }
-
-    const goToCards = () => {
-      router.push('/cards')
-    }
-
-    const goToAccount = () => {
-      router.push('/account')
-    }
-
-    return {
-      activeTab,
-      balance,
-      balanceVisible,
-      recentTransactions,
-      toggleBalanceVisibility,
-      goToTransfer,
-      goToCards,
-      goToAccount,
-      showToast
-    }
+// 模拟交易记录数据
+const recentTransactions = ref([
+  {
+    id: 1,
+    title: '工资发放',
+    time: '今天 14:30',
+    amount: '+8,500.00',
+    type: 'income',
+    icon: 'gold-coin-o'
+  },
+  {
+    id: 2,
+    title: '超市购物',
+    time: '昨天 19:20',
+    amount: '-156.80',
+    type: 'expense',
+    icon: 'shop-o'
+  },
+  {
+    id: 3,
+    title: '转账给张三',
+    time: '昨天 15:45',
+    amount: '-2,000.00',
+    type: 'expense',
+    icon: 'exchange'
   }
+])
+
+// 切换余额显示/隐藏
+const toggleBalanceVisibility = () => {
+  balanceVisible.value = !balanceVisible.value
+}
+
+// 导航方法
+const goToTransfer = () => {
+  router.push('/transfer')
+}
+
+const goToCards = () => {
+  router.push('/cards')
+}
+
+const goToAccount = () => {
+  router.push('/account')
+}
+
+const goToRenderDemo = () => {
+  router.push('/render-demo')
+}
+
+const goToLifecycleDemo = () => {
+  router.push('/lifecycle-demo')
+}
+
+const goToComputedDemo = () => {
+  router.push('/computed-demo')
+}
+
+const goToComponentDemo = () => {
+  router.push('/component-demo')
 }
 </script>
 
@@ -265,6 +297,67 @@ export default {
 .function-item span {
   font-size: 12px;
   color: #666;
+}
+
+.developer-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+  border: 2px dashed #e8e8e8;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.demo-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  padding: 12px;
+  border-radius: 8px;
+  transition: background-color 0.2s;
+}
+
+.demo-item:hover {
+  background-color: #f8f9fa;
+}
+
+.demo-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 6px;
+  color: white;
+}
+
+.demo-icon.render {
+  background: linear-gradient(135deg, #667eea, #764ba2);
+}
+
+.demo-icon.component {
+  background: linear-gradient(135deg, #ff9a9e, #fecfef);
+}
+
+.demo-icon.lifecycle {
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.demo-icon.computed {
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.demo-item span {
+  font-size: 11px;
+  color: #666;
+  text-align: center;
 }
 
 .transaction-section {

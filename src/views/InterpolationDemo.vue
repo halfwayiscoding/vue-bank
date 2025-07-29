@@ -21,34 +21,22 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 
-export default {
-  setup() {
-    const username = ref('张三')
-    const password = ref('')
-    const isLoggedIn = ref(false)
-    
-    const toggleLogin = () => {
-      // 在JavaScript中必须用.value
-      isLoggedIn.value = !isLoggedIn.value
-    }
-    
-    const showValues = () => {
-      // 在JavaScript中必须用.value
-      console.log('用户名：', username.value)
-      console.log('密码：', password.value)
-      console.log('登录状态：', isLoggedIn.value)
-    }
-    
-    return {
-      username,
-      password,
-      isLoggedIn,
-      toggleLogin,
-      showValues
-    }
-  }
+const username = ref('张三')
+const password = ref('')
+const isLoggedIn = ref(false)
+
+const toggleLogin = () => {
+  // 在JavaScript中必须用.value
+  isLoggedIn.value = !isLoggedIn.value
+}
+
+const showValues = () => {
+  // 在JavaScript中必须用.value
+  console.log('用户名：', username.value)
+  console.log('密码：', password.value)
+  console.log('登录状态：', isLoggedIn.value)
 }
 </script>

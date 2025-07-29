@@ -22,10 +22,9 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'StyleDemo'
-}
+<script setup>
+// 这个组件主要用于展示CSS样式
+// 不需要响应式数据，但使用 <script setup> 保持一致性
 </script>
 
 <style scoped>

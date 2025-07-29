@@ -71,148 +71,130 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref, computed, onMounted } from 'vue'
 import { showToast } from 'vant'
 
-export default {
-  name: 'Account',
-  setup() {
-    const activeTab = ref(1)
-    const loading = ref(false)
-    const finished = ref(false)
-    const filterType = ref(0)
-    const filterTime = ref(0)
+const activeTab = ref(1)
+const loading = ref(false)
+const finished = ref(false)
+const filterType = ref(0)
+const filterTime = ref(0)
 
-    // 筛选选项
-    const typeOptions = ref([
-      { text: '全部类型', value: 0 },
-      { text: '收入', value: 1 },
-      { text: '支出', value: 2 },
-      { text: '转账', value: 3 }
-    ])
+// 筛选选项
+const typeOptions = ref([
+  { text: '全部类型', value: 0 },
+  { text: '收入', value: 1 },
+  { text: '支出', value: 2 },
+  { text: '转账', value: 3 }
+])
 
-    const timeOptions = ref([
-      { text: '最近一周', value: 0 },
-      { text: '最近一月', value: 1 },
-      { text: '最近三月', value: 2 },
-      { text: '最近一年', value: 3 }
-    ])
+const timeOptions = ref([
+  { text: '最近一周', value: 0 },
+  { text: '最近一月', value: 1 },
+  { text: '最近三月', value: 2 },
+  { text: '最近一年', value: 3 }
+])
 
-    // 交易数据
-    const transactions = ref([
-      {
-        id: 1,
-        title: '工资发放',
-        description: '公司转账 - 月薪',
-        amount: '+8,500.00',
-        type: 'income',
-        icon: 'gold-coin-o',
-        date: '2024-01-15',
-        time: '14:30'
-      },
-      {
-        id: 2,
-        title: '超市购物',
-        description: '华润万家 - 刷卡消费',
-        amount: '-156.80',
-        type: 'expense',
-        icon: 'shop-o',
-        date: '2024-01-14',
-        time: '19:20'
-      },
-      {
-        id: 3,
-        title: '转账给张三',
-        description: '个人转账',
-        amount: '-2,000.00',
-        type: 'expense',
-        icon: 'exchange',
-        date: '2024-01-14',
-        time: '15:45'
-      },
-      {
-        id: 4,
-        title: '理财收益',
-        description: '朝朝盈 - 收益到账',
-        amount: '+25.60',
-        type: 'income',
-        icon: 'gold-coin-o',
-        date: '2024-01-13',
-        time: '09:00'
-      },
-      {
-        id: 5,
-        title: '餐厅消费',
-        description: '海底捞 - 刷卡消费',
-        amount: '-298.00',
-        type: 'expense',
-        icon: 'shop-o',
-        date: '2024-01-13',
-        time: '20:15'
-      }
-    ])
+// 交易数据
+const transactions = ref([
+  {
+    id: 1,
+    title: '工资发放',
+    description: '公司转账 - 月薪',
+    amount: '+8,500.00',
+    type: 'income',
+    icon: 'gold-coin-o',
+    date: '2024-01-15',
+    time: '14:30'
+  },
+  {
+    id: 2,
+    title: '超市购物',
+    description: '华润万家 - 刷卡消费',
+    amount: '-156.80',
+    type: 'expense',
+    icon: 'shop-o',
+    date: '2024-01-14',
+    time: '19:20'
+  },
+  {
+    id: 3,
+    title: '转账给张三',
+    description: '个人转账',
+    amount: '-2,000.00',
+    type: 'expense',
+    icon: 'exchange',
+    date: '2024-01-14',
+    time: '15:45'
+  },
+  {
+    id: 4,
+    title: '理财收益',
+    description: '朝朝盈 - 收益到账',
+    amount: '+25.60',
+    type: 'income',
+    icon: 'gold-coin-o',
+    date: '2024-01-13',
+    time: '09:00'
+  },
+  {
+    id: 5,
+    title: '餐厅消费',
+    description: '海底捞 - 刷卡消费',
+    amount: '-298.00',
+    type: 'expense',
+    icon: 'shop-o',
+    date: '2024-01-13',
+    time: '20:15'
+  }
+])
 
-    // 按日期分组的交易记录
-    const groupedTransactions = computed(() => {
-      const groups = {}
-      transactions.value.forEach(transaction => {
-        const date = formatDate(transaction.date)
-        if (!groups[date]) {
-          groups[date] = []
-        }
-        groups[date].push(transaction)
-      })
-      return groups
-    })
-
-    // 格式化日期
-    const formatDate = (dateStr) => {
-      const date = new Date(dateStr)
-      const today = new Date()
-      const yesterday = new Date(today)
-      yesterday.setDate(yesterday.getDate() - 1)
-
-      if (date.toDateString() === today.toDateString()) {
-        return '今天'
-      } else if (date.toDateString() === yesterday.toDateString()) {
-        return '昨天'
-      } else {
-        return `${date.getMonth() + 1}月${date.getDate()}日`
-      }
+// 按日期分组的交易记录
+const groupedTransactions = computed(() => {
+  const groups = {}
+  transactions.value.forEach(transaction => {
+    const date = formatDate(transaction.date)
+    if (!groups[date]) {
+      groups[date] = []
     }
+    groups[date].push(transaction)
+  })
+  return groups
+})
 
-    // 加载更多数据
-    const onLoad = () => {
-      setTimeout(() => {
-        loading.value = false
-        finished.value = true
-      }, 1000)
-    }
+// 格式化日期
+const formatDate = (dateStr) => {
+  const date = new Date(dateStr)
+  const today = new Date()
+  const yesterday = new Date(today)
+  yesterday.setDate(yesterday.getDate() - 1)
 
-    // 显示交易详情
-    const showTransactionDetail = (transaction) => {
-      showToast(`查看 ${transaction.title} 详情`)
-    }
-
-    onMounted(() => {
-      // 初始化数据
-    })
-
-    return {
-      activeTab,
-      loading,
-      finished,
-      filterType,
-      filterTime,
-      typeOptions,
-      timeOptions,
-      groupedTransactions,
-      onLoad,
-      showTransactionDetail
-    }
+  if (date.toDateString() === today.toDateString()) {
+    return '今天'
+  } else if (date.toDateString() === yesterday.toDateString()) {
+    return '昨天'
+  } else {
+    return `${date.getMonth() + 1}月${date.getDate()}日`
   }
 }
+
+// 加载更多数据
+const onLoad = () => {
+  setTimeout(() => {
+    loading.value = false
+    finished.value = true
+  }, 1000)
+}
+
+// 显示交易详情
+const showTransactionDetail = (transaction) => {
+  showToast(`查看 ${transaction.title} 详情`)
+}
+
+onMounted(() => {
+  // 初始化数据
+})
 </script>
 
 <style scoped>

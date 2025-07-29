@@ -87,80 +87,63 @@
   </div>
 </template>
 
-<script>
+<script setup>
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast, showConfirmDialog } from 'vant'
 
-export default {
-  name: 'Transfer',
-  setup() {
-    const router = useRouter()
-    const activeTab = ref(1)
-    const loading = ref(false)
-    const showBankPicker = ref(false)
+const router = useRouter()
+const activeTab = ref(1)
+const loading = ref(false)
+const showBankPicker = ref(false)
 
-    // 表单数据
-    const recipient = ref({
-      name: '',
-      account: '',
-      bank: ''
+// 表单数据
+const recipient = ref({
+  name: '',
+  account: '',
+  bank: ''
+})
+const amount = ref('')
+const remark = ref('')
+
+// 银行列表
+const bankList = ref([
+  '招商银行',
+  '中国工商银行',
+  '中国建设银行',
+  '中国农业银行',
+  '中国银行',
+  '交通银行',
+  '中信银行',
+  '光大银行',
+  '华夏银行',
+  '民生银行'
+])
+
+// 银行选择确认
+const onBankConfirm = ({ selectedValues }) => {
+  recipient.value.bank = selectedValues[0]
+  showBankPicker.value = false
+}
+
+// 提交转账
+const onSubmit = async () => {
+  try {
+    await showConfirmDialog({
+      title: '确认转账',
+      message: `向 ${recipient.value.name} 转账 ¥${amount.value} 元？`
     })
-    const amount = ref('')
-    const remark = ref('')
 
-    // 银行列表
-    const bankList = ref([
-      '招商银行',
-      '中国工商银行',
-      '中国建设银行',
-      '中国农业银行',
-      '中国银行',
-      '交通银行',
-      '中信银行',
-      '光大银行',
-      '华夏银行',
-      '民生银行'
-    ])
-
-    // 银行选择确认
-    const onBankConfirm = ({ selectedValues }) => {
-      recipient.value.bank = selectedValues[0]
-      showBankPicker.value = false
-    }
-
-    // 提交转账
-    const onSubmit = async () => {
-      try {
-        await showConfirmDialog({
-          title: '确认转账',
-          message: `向 ${recipient.value.name} 转账 ¥${amount.value} 元？`
-        })
-
-        loading.value = true
-        
-        // 模拟转账请求
-        setTimeout(() => {
-          showToast('转账成功')
-          router.back()
-          loading.value = false
-        }, 2000)
-      } catch {
-        // 用户取消
-      }
-    }
-
-    return {
-      activeTab,
-      loading,
-      showBankPicker,
-      recipient,
-      amount,
-      remark,
-      bankList,
-      onBankConfirm,
-      onSubmit
-    }
+    loading.value = true
+    
+    // 模拟转账请求
+    setTimeout(() => {
+      showToast('转账成功')
+      router.back()
+      loading.value = false
+    }, 2000)
+  } catch {
+    // 用户取消
   }
 }
 </script>
