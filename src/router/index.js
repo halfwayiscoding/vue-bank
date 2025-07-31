@@ -6,10 +6,17 @@ import Login from '../views/Login.vue'
 import Account from '../views/Account.vue'
 import Transfer from '../views/Transfer.vue'
 import Cards from '../views/Cards.vue'
+import InterpolationDemo from '../views/InterpolationDemo.vue'
+import RefDemo from '../views/RefDemo.vue'
+import StyleDemo from '../views/StyleDemo.vue'
+import TemplateVsScript from '../views/TemplateVsScript.vue'
+import ComponentDemo from '../views/ComponentDemo.vue'
 import ComputedVsMethod from '../views/ComputedVsMethod.vue'
 import LifecycleDemo from '../views/LifecycleDemo.vue'
 import RenderDemo from '../views/RenderDemo.vue'
-import ComponentDemo from '../views/ComponentDemo.vue'
+import ProxyDemo from '../views/ProxyDemo.vue'
+import VueProxyDemo from '../views/VueProxyDemo.vue'
+import PromiseDemo from '../views/PromiseDemo.vue'
 
 const routes = [
   {
@@ -60,6 +67,21 @@ const routes = [
     path: '/component-demo',
     name: 'ComponentDemo',
     component: ComponentDemo
+  },
+  {
+    path: '/proxy-demo',
+    name: 'ProxyDemo',
+    component: ProxyDemo
+  },
+  {
+    path: '/vue-proxy-demo',
+    name: 'VueProxyDemo',
+    component: VueProxyDemo
+  },
+  {
+    path: '/promise-demo',
+    name: 'PromiseDemo',
+    component: PromiseDemo
   }
 ]
 

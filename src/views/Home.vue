@@ -85,6 +85,24 @@
             </div>
             <span>计算属性</span>
           </div>
+          <div class="demo-item" @click="goToProxyDemo">
+            <div class="demo-icon proxy">
+              <van-icon name="exchange" size="18" />
+            </div>
+            <span>HTTP代理</span>
+          </div>
+          <div class="demo-item" @click="goToVueProxyDemo">
+            <div class="demo-icon vue-proxy">
+              <van-icon name="diamond-o" size="18" />
+            </div>
+            <span>Vue Proxy</span>
+          </div>
+          <div class="demo-item" @click="goToPromiseDemo">
+            <div class="demo-icon promise">
+              <van-icon name="clock-o" size="18" />
+            </div>
+            <span>Promise</span>
+          </div>
         </div>
       </div>
 
@@ -193,6 +211,18 @@ const goToComputedDemo = () => {
 
 const goToComponentDemo = () => {
   router.push('/component-demo')
+}
+
+const goToProxyDemo = () => {
+  router.push('/proxy-demo')
+}
+
+const goToVueProxyDemo = () => {
+  router.push('/vue-proxy-demo')
+}
+
+const goToPromiseDemo = () => {
+  router.push('/promise-demo')
 }
 </script>
 
@@ -309,8 +339,8 @@ const goToComponentDemo = () => {
 
 .demo-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 8px;
 }
 
 .demo-item {
@@ -352,6 +382,18 @@ const goToComponentDemo = () => {
 
 .demo-icon.computed {
   background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.demo-icon.proxy {
+  background: linear-gradient(135deg, #fd79a8, #fdcb6e);
+}
+
+.demo-icon.vue-proxy {
+  background: linear-gradient(135deg, #00b894, #00cec9);
+}
+
+.demo-icon.promise {
+  background: linear-gradient(135deg, #a29bfe, #6c5ce7);
 }
 
 .demo-item span {
