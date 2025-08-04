@@ -65,8 +65,8 @@
     <van-tabbar v-model="activeTab" fixed>
       <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
       <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
+      <van-tabbar-item icon="shop-o" to="/life">生活</van-tabbar-item>
       <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
-      <van-tabbar-item icon="user-o">我的</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>

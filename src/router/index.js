@@ -7,6 +7,7 @@ import Account from '../views/Account.vue'
 import Transfer from '../views/Transfer.vue'
 import Cards from '../views/Cards.vue'
 import Wealth from '../views/Wealth.vue'
+import Life from '../views/Life.vue'
 import InterpolationDemo from '../views/InterpolationDemo.vue'
 import RefDemo from '../views/RefDemo.vue'
 import StyleDemo from '../views/StyleDemo.vue'
@@ -53,6 +54,11 @@ const routes = [
     path: '/wealth',
     name: 'Wealth',
     component: Wealth
+  },
+  {
+    path: '/life',
+    name: 'Life',
+    component: Life
   },
   {
     path: '/computed-demo',
