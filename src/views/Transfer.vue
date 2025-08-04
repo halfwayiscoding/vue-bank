@@ -80,7 +80,7 @@
     <!-- 底部标签栏 -->
     <van-tabbar v-model="activeTab" fixed>
       <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="balance-list-o" to="/account">账户</van-tabbar-item>
+      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
       <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
       <van-tabbar-item icon="user-o">我的</van-tabbar-item>
     </van-tabbar>
@@ -108,7 +108,7 @@ const remark = ref('')
 
 // 银行列表
 const bankList = ref([
-  '招商银行',
+  'CC银行',
   '中国工商银行',
   '中国建设银行',
   '中国农业银行',

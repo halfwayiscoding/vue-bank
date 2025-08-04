@@ -8,7 +8,7 @@
         <div class="account-card">
           <div class="card-header">
             <span class="card-type">储蓄卡</span>
-            <span class="card-bank">招商银行</span>
+            <span class="card-bank">CC银行</span>
           </div>
           <div class="card-number">**** **** **** 8888</div>
           <div class="card-balance">
@@ -64,7 +64,7 @@
     <!-- 底部标签栏 -->
     <van-tabbar v-model="activeTab" fixed>
       <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="balance-list-o" to="/account">账户</van-tabbar-item>
+      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
       <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
       <van-tabbar-item icon="user-o">我的</van-tabbar-item>
     </van-tabbar>

@@ -16,7 +16,7 @@
       <div class="logo-section">
         <div class="logo-container" :class="{ 'animate': isLogoAnimated }">
           <div class="logo-circle">
-            <span class="logo-text">招行</span>
+            <span class="logo-text">C行</span>
           </div>
         </div>
         <h1 class="app-title">{{ appConfig.title }}</h1>
@@ -114,7 +114,7 @@
     <!-- 底部信息 -->
     <div class="footer">
       <p class="version">版本 {{ appConfig.version }}</p>
-      <p class="copyright">© 2024 招商银行股份有限公司</p>
+      <p class="copyright">© 2024 CC银行股份有限公司</p>
     </div>
 
     <!-- Toast消息 -->
@@ -163,7 +163,7 @@ const toast = reactive({
 
 // 应用配置
 const appConfig = reactive({
-  title: '招商银行',
+  title: 'CC银行',
   subtitle: '一网通用户登录',
   version: 'v8.8.8'
 })
@@ -278,7 +278,7 @@ const handleLogin = async () => {
     await new Promise(resolve => setTimeout(resolve, 2000))
     
     // 模拟登录验证
-    if (formData.username === 'admin' && formData.password === '123456') {
+    if (formData.username === 'cloud' && formData.password === '123456') {
       showToastMessage('登录成功！', 'success')
       
       // 保存登录状态

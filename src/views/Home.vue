@@ -1,7 +1,7 @@
 <template>
   <div class="home-container">
     <!-- 顶部导航栏 -->
-    <van-nav-bar title="招商银行" fixed>
+    <van-nav-bar title="CC银行" fixed>
       <template #right>
         <van-icon name="search" size="18" @click="showToast('搜索功能')" />
       </template>
@@ -51,6 +51,51 @@
               <van-icon name="shop-o" size="24" />
             </div>
             <span>贷款</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 运营活动模块 -->
+      <div class="activity-section">
+        <div class="section-header">
+          <h3>🎉 精彩活动</h3>
+          <span class="more" @click="showToast('查看更多活动')">更多</span>
+        </div>
+        
+        <!-- 轮播活动横幅 -->
+        <van-swipe class="activity-swipe" :autoplay="3000" indicator-color="white">
+          <van-swipe-item v-for="banner in activityBanners" :key="banner.id">
+            <div class="activity-banner" :style="{ background: banner.gradient }" @click="handleActivityClick(banner)">
+              <div class="banner-content">
+                <div class="banner-text">
+                  <h4>{{ banner.title }}</h4>
+                  <p>{{ banner.subtitle }}</p>
+                </div>
+                <div class="banner-icon">
+                  <van-icon :name="banner.icon" size="32" />
+                </div>
+              </div>
+              <div class="banner-tag">{{ banner.tag }}</div>
+            </div>
+          </van-swipe-item>
+        </van-swipe>
+
+        <!-- 活动网格 -->
+        <div class="activity-grid">
+          <div 
+            v-for="activity in activities" 
+            :key="activity.id" 
+            class="activity-item"
+            @click="handleActivityClick(activity)"
+          >
+            <div class="activity-icon" :style="{ background: activity.gradient }">
+              <van-icon :name="activity.icon" size="20" />
+            </div>
+            <div class="activity-info">
+              <span class="activity-title">{{ activity.title }}</span>
+              <span class="activity-desc">{{ activity.desc }}</span>
+            </div>
+            <div class="activity-badge" v-if="activity.badge">{{ activity.badge }}</div>
           </div>
         </div>
       </div>
@@ -134,7 +179,7 @@
     <!-- 底部标签栏 -->
     <van-tabbar v-model="activeTab" fixed>
       <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="balance-list-o" to="/account">账户</van-tabbar-item>
+      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
       <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
       <van-tabbar-item icon="user-o" @click="showToast('个人中心')">我的</van-tabbar-item>
     </van-tabbar>
@@ -178,6 +223,91 @@ const recentTransactions = ref([
     icon: 'exchange'
   }
 ])
+
+// 运营活动横幅数据
+const activityBanners = ref([
+  {
+    id: 1,
+    title: '新用户专享',
+    subtitle: '开户即送888元理财金',
+    icon: 'gift-o',
+    tag: '限时',
+    gradient: 'linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%)',
+    type: 'newuser'
+  },
+  {
+    id: 2,
+    title: '理财节',
+    subtitle: '年化收益率高达6.8%',
+    icon: 'gold-coin-o',
+    tag: '热门',
+    gradient: 'linear-gradient(135deg, #f9ca24 0%, #f0932b 100%)',
+    type: 'wealth'
+  },
+  {
+    id: 3,
+    title: '信用卡优惠',
+    subtitle: '消费满1000返100',
+    icon: 'credit-pay',
+    tag: '推荐',
+    gradient: 'linear-gradient(135deg, #6c5ce7 0%, #a29bfe 100%)',
+    type: 'creditcard'
+  }
+])
+
+// 活动网格数据
+const activities = ref([
+  {
+    id: 1,
+    title: '签到有礼',
+    desc: '连续签到7天',
+    icon: 'calendar-o',
+    gradient: 'linear-gradient(135deg, #00b894, #00cec9)',
+    badge: '每日',
+    type: 'checkin'
+  },
+  {
+    id: 2,
+    title: '邀请好友',
+    desc: '最高得500元',
+    icon: 'friends-o',
+    gradient: 'linear-gradient(135deg, #fd79a8, #e84393)',
+    badge: '奖励',
+    type: 'invite'
+  },
+  {
+    id: 3,
+    title: '积分商城',
+    desc: '积分兑好礼',
+    icon: 'shop-o',
+    gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
+    badge: null,
+    type: 'points'
+  },
+  {
+    id: 4,
+    title: '生活缴费',
+    desc: '水电燃气费',
+    icon: 'bill-o',
+    gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
+    badge: '便民',
+    type: 'bills'
+  }
+])
+
+// 处理活动点击
+const handleActivityClick = (activity) => {
+  const messages = {
+    newuser: '新用户专享活动详情',
+    wealth: '理财节活动详情',
+    creditcard: '信用卡优惠活动详情',
+    checkin: '签到功能',
+    invite: '邀请好友功能',
+    points: '积分商城功能',
+    bills: '生活缴费功能'
+  }
+  showToast(messages[activity.type] || '活动详情')
+}
 
 // 切换余额显示/隐藏
 const toggleBalanceVisibility = () => {
@@ -327,6 +457,131 @@ const goToPromiseDemo = () => {
 .function-item span {
   font-size: 12px;
   color: #666;
+}
+
+.activity-section {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.activity-swipe {
+  margin: 16px 0;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.activity-banner {
+  height: 120px;
+  border-radius: 12px;
+  padding: 20px;
+  position: relative;
+  cursor: pointer;
+  overflow: hidden;
+}
+
+.banner-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100%;
+}
+
+.banner-text {
+  color: white;
+}
+
+.banner-text h4 {
+  font-size: 18px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.banner-text p {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.banner-icon {
+  color: white;
+  opacity: 0.8;
+}
+
+.banner-tag {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 12px;
+  backdrop-filter: blur(10px);
+}
+
+.activity-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+  padding: 16px;
+  background: #f8f9fa;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+}
+
+.activity-item:hover {
+  background: #e9ecef;
+  transform: translateY(-1px);
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 12px;
+  color: white;
+}
+
+.activity-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.activity-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 4px;
+}
+
+.activity-desc {
+  font-size: 12px;
+  color: #666;
+}
+
+.activity-badge {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+  color: white;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 10px;
+  font-weight: 600;
 }
 
 .developer-section {

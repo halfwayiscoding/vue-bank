@@ -31,7 +31,7 @@ import { ref, computed } from 'vue'
 const props = defineProps({
   bankName: {
     type: String,
-    default: '招商银行'
+    default: 'CC银行'
   },
   cardNumber: {
     type: String,

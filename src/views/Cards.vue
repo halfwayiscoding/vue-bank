@@ -82,7 +82,7 @@
     <!-- 底部标签栏 -->
     <van-tabbar v-model="activeTab" fixed>
       <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="balance-list-o" to="/account">账户</van-tabbar-item>
+      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
       <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
       <van-tabbar-item icon="user-o">我的</van-tabbar-item>
     </van-tabbar>
@@ -100,7 +100,7 @@ const cards = ref([
   {
     id: 1,
     name: '一卡通储蓄卡',
-    bank: '招商银行',
+    bank: 'CC银行',
     number: '**** **** **** 8888',
     holder: '张三',
     expiry: '12/28',
@@ -110,7 +110,7 @@ const cards = ref([
   {
     id: 2,
     name: '信用卡金卡',
-    bank: '招商银行',
+    bank: 'CC银行',
     number: '**** **** **** 6666',
     holder: '张三',
     expiry: '08/27',
@@ -120,7 +120,7 @@ const cards = ref([
   {
     id: 3,
     name: '理财金卡',
-    bank: '招商银行',
+    bank: 'CC银行',
     number: '**** **** **** 9999',
     holder: '张三',
     expiry: '03/29',

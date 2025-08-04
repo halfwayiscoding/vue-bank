@@ -23,7 +23,7 @@
       <div class="cards-container">
         <!-- 💳 使用同一个组件，传入不同的数据 -->
         <BankCard
-          bank-name="招商银行"
+          bank-name="CC银行"
           card-number="6225 8888 1234 5678"
           card-type="savings"
           :balance="128888.88"
@@ -32,7 +32,7 @@
         />
         
         <BankCard
-          bank-name="招商银行"
+          bank-name="CC银行"
           card-number="5555 4444 3333 2222"
           card-type="credit"
           :balance="50000.00"
@@ -41,7 +41,7 @@
         />
         
         <BankCard
-          bank-name="招商银行"
+          bank-name="CC银行"
           card-number="6225 1111 9999 8888"
           card-type="debit"
           :balance="25680.50"

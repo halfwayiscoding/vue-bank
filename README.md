@@ -1,6 +1,6 @@
-# Vue银行App - 类似招商银行
+# Vue银行App - 类似CC银行
 
-这是一个使用Vue 3 + Vite + Vant UI开发的移动端银行应用，模仿招商银行app的界面和功能。
+这是一个使用Vue 3 + Vite + Vant UI开发的移动端银行应用，模仿CC银行app的界面和功能。
 
 ## 🚀 快速开始
 
