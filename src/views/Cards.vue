@@ -80,32 +80,17 @@
     </div>
 
     <!-- 底部标签栏 -->
-    <van-tabbar v-model="activeTab" fixed>
-      <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
-      <van-tabbar-item icon="shop-o" to="/life">生活</van-tabbar-item>
-      <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
-    </van-tabbar>
+  <BottomTabbar />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onActivated, computed } from 'vue'
+import { ref, onMounted, onActivated } from 'vue'
 import { useRoute } from 'vue-router'
 import { showToast } from 'vant'
+import BottomTabbar from '@/components/BottomTabbar.vue'
 
 const route = useRoute()
-
-// 根据当前路由计算activeTab
-const activeTab = computed(() => {
-  const routeToTabMap = {
-    '/home': 0,
-    '/wealth': 1,
-    '/life': 2,
-    '/cards': 3
-  }
-  return routeToTabMap[route.path] || 3
-})
 
 // 卡片数据
 const cards = ref([

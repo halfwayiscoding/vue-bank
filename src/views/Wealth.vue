@@ -12,6 +12,12 @@
       <!-- 推荐理财产品 -->
       <div class="recommend-section">
         <div class="recommend-item" v-for="product in recommendProducts" :key="product.id" @click="handleProductClick(product)">
+          <!-- VIP标识 -->
+          <div v-if="[2, 3].includes(product.id)" class="vip-badge">
+            <van-icon name="diamond-o" size="12" />
+            <span>VIP专享</span>
+          </div>
+          
           <div class="product-header">
             <div class="product-info">
               <h3 class="product-name">{{ product.name }}</h3>
@@ -38,6 +44,12 @@
         </div>
         <div class="fund-grid">
           <div class="fund-card" v-for="fund in funds" :key="fund.id" @click="handleFundClick(fund)">
+            <!-- VIP标识 -->
+            <div v-if="fund.id === 2" class="vip-badge-small">
+              <van-icon name="diamond-o" size="10" />
+              <span>VIP</span>
+            </div>
+            
             <div class="fund-icon" :style="{ background: fund.gradient }">
               <van-icon :name="fund.icon" size="24" />
             </div>
@@ -103,32 +115,18 @@
     </div>
 
     <!-- 底部标签栏 -->
-    <van-tabbar v-model="activeTab" fixed>
-      <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
-      <van-tabbar-item icon="shop-o" to="/life">生活</van-tabbar-item>
-      <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
-    </van-tabbar>
+  <BottomTabbar />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onActivated, computed } from 'vue'
+import { ref, onMounted, onActivated } from 'vue'
 import { useRoute } from 'vue-router'
-import { showToast } from 'vant'
+import { showToast, showConfirmDialog } from 'vant'
+import BottomTabbar from '@/components/BottomTabbar.vue'
+import auth from '@/utils/auth'
 
 const route = useRoute()
-
-// 根据当前路由计算activeTab
-const activeTab = computed(() => {
-  const routeToTabMap = {
-    '/home': 0,
-    '/wealth': 1,
-    '/life': 2,
-    '/cards': 3
-  }
-  return routeToTabMap[route.path] || 1
-})
 
 // 推荐理财产品
 const recommendProducts = ref([
@@ -211,12 +209,50 @@ const fundProducts = ref([
 ])
 
 // 处理产品点击
-const handleProductClick = (product) => {
+const handleProductClick = async (product) => {
+  // 高收益产品需要VIP权限
+  const highYieldProducts = [2, 3] // 收益率较高的产品ID
+  
+  if (highYieldProducts.includes(product.id)) {
+    if (!auth.hasVIPLevel(1)) {
+      try {
+        await showConfirmDialog({
+          title: 'VIP专享产品',
+          message: '此产品为VIP专享，升级VIP即可享受更高收益理财产品。是否了解VIP权益？',
+          confirmButtonText: '了解VIP',
+          cancelButtonText: '取消'
+        })
+        showToast('VIP权益详情页面')
+      } catch {
+        // 用户取消
+      }
+      return
+    }
+  }
+  
   showToast(`查看${product.name}详情`)
 }
 
 // 处理基金点击
-const handleFundClick = (fund) => {
+const handleFundClick = async (fund) => {
+  // 定投专区需要VIP权限
+  if (fund.id === 2) { // 定投专区
+    if (!auth.hasVIPLevel(1)) {
+      try {
+        await showConfirmDialog({
+          title: 'VIP专享功能',
+          message: '定投专区为VIP专享功能，可享受更优质的定投服务和更低的手续费。是否了解VIP权益？',
+          confirmButtonText: '了解VIP',
+          cancelButtonText: '取消'
+        })
+        showToast('VIP权益详情页面')
+      } catch {
+        // 用户取消
+      }
+      return
+    }
+  }
+  
   showToast(`进入${fund.title}`)
 }
 
@@ -260,6 +296,7 @@ onActivated(() => {
   margin-bottom: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .recommend-item:hover {
@@ -341,6 +378,7 @@ onActivated(() => {
   padding: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
+  position: relative;
 }
 
 .fund-card:hover {
@@ -509,5 +547,40 @@ onActivated(() => {
   width: 24px;
   height: 24px;
   border-radius: 50%;
+}
+
+/* VIP标识样式 */
+.vip-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+  color: #333;
+  padding: 4px 8px;
+  border-radius: 12px;
+  font-size: 10px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  box-shadow: 0 2px 4px rgba(255, 215, 0, 0.3);
+  z-index: 1;
+}
+
+.vip-badge-small {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: linear-gradient(135deg, #ffd700, #ffb347);
+  color: #333;
+  padding: 2px 6px;
+  border-radius: 8px;
+  font-size: 8px;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 1px;
+  box-shadow: 0 1px 2px rgba(255, 215, 0, 0.3);
+  z-index: 1;
 }
 </style>

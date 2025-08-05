@@ -50,101 +50,40 @@
         </van-grid>
       </div>
 
-      <!-- 汽车服务 -->
-      <div class="car-service-section">
+      <!-- 政务民生内容 -->
+      <div v-if="activeCategory === 1" class="government-services">
         <div class="section-header">
-          <h2>汽车服务</h2>
-          <van-icon name="arrow" />
+          <h2>🏛️ 政务服务</h2>
         </div>
-        
-        <!-- 营速2024活动 -->
-        <div class="car-activity">
-          <div class="activity-content">
-            <h3>「营速2024」</h3>
-            <p>内卷的尽头是抽象？</p>
-            <div class="stars">
-              <span v-for="i in 4" :key="i" class="star">✨</span>
-            </div>
-          </div>
-        </div>
-
-        <!-- 汽车品牌 -->
-        <div class="car-brands">
-          <div 
-            v-for="brand in carBrands" 
-            :key="brand.id"
-            class="brand-item"
-            @click="handleBrandClick(brand)"
-          >
-            <div class="brand-logo">{{ brand.logo }}</div>
-            <span>{{ brand.name }}</span>
-          </div>
-        </div>
-
-        <!-- 汽车服务项目 -->
-        <van-grid :column-num="2" :gutter="16" class="car-services">
+        <van-grid :column-num="2" :gutter="16" class="government-grid">
           <van-grid-item
-            v-for="service in carServices"
-            :key="service.id"
-            @click="handleServiceClick(service)"
-          >
-            <div class="car-service-card">
-              <div class="service-icon">
-                <van-icon :name="service.icon" size="24" />
-              </div>
-              <h4>{{ service.title }}</h4>
-              <p>{{ service.description }}</p>
-            </div>
-          </van-grid-item>
-        </van-grid>
-      </div>
-
-      <!-- 出行礼遇 -->
-      <div class="travel-section">
-        <div class="section-header">
-          <h2>出行礼遇</h2>
-        </div>
-
-        <div class="travel-services">
-          <!-- 地铁公交 -->
-          <div class="travel-main-card" @click="handleServiceClick({type: 'metro'})">
-            <div class="card-content">
-              <h3>地铁公交</h3>
-              <p>绿色出行，随机立减</p>
-            </div>
-            <div class="card-image">
-              <van-icon name="logistics" size="40" color="#4A90E2" />
-            </div>
-          </div>
-
-          <!-- 其他出行服务 -->
-          <div class="travel-grid">
-            <div 
-              v-for="service in travelServices"
-              :key="service.id"
-              class="travel-card"
-              @click="handleServiceClick(service)"
-            >
-              <div class="travel-icon">
-                <van-icon :name="service.icon" size="20" />
-              </div>
-              <h4>{{ service.title }}</h4>
-              <p>{{ service.description }}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- 便民服务 -->
-      <div class="convenience-section">
-        <van-grid :column-num="5" :gutter="12" class="convenience-grid">
-          <van-grid-item
-            v-for="item in conveniences"
+            v-for="item in governmentServices"
             :key="item.id"
             @click="handleServiceClick(item)"
           >
-            <div class="convenience-item">
-              <div class="convenience-icon" :style="{ background: item.gradient }">
+            <div class="service-card">
+              <div class="service-icon">
+                {{ item.icon }}
+              </div>
+              <div class="service-info">
+                <h3>{{ item.title }}</h3>
+                <p>{{ item.description }}</p>
+              </div>
+            </div>
+          </van-grid-item>
+        </van-grid>
+
+        <div class="section-header">
+          <h2>🏥 民生服务</h2>
+        </div>
+        <van-grid :column-num="3" :gutter="12" class="livelihood-grid">
+          <van-grid-item
+            v-for="item in livelihoodServices"
+            :key="item.id"
+            @click="handleServiceClick(item)"
+          >
+            <div class="livelihood-item">
+              <div class="livelihood-icon" :style="{ background: item.gradient }">
                 <van-icon :name="item.icon" size="20" color="white" />
               </div>
               <span>{{ item.title }}</span>
@@ -152,35 +91,179 @@
           </van-grid-item>
         </van-grid>
       </div>
+
+      <!-- 粉丝福利内容 -->
+      <div v-if="activeCategory === 2" class="fans-benefits">
+        <div class="benefits-banner">
+          <div class="banner-content">
+            <h2>🎉 粉丝专属福利</h2>
+            <p>感谢您的支持，专属福利等您来领！</p>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2>🎁 限时福利</h2>
+        </div>
+        <div class="benefits-list">
+          <div 
+            v-for="benefit in fansBenefits"
+            :key="benefit.id"
+            class="benefit-card"
+            @click="handleServiceClick(benefit)"
+          >
+            <div class="benefit-icon">
+              {{ benefit.icon }}
+            </div>
+            <div class="benefit-info">
+              <h3>{{ benefit.title }}</h3>
+              <p>{{ benefit.description }}</p>
+              <div class="benefit-tag">{{ benefit.tag }}</div>
+            </div>
+            <div class="benefit-action">
+              <van-button size="small" type="primary">{{ benefit.action }}</van-button>
+            </div>
+          </div>
+        </div>
+
+        <div class="section-header">
+          <h2>🏆 会员特权</h2>
+        </div>
+        <van-grid :column-num="2" :gutter="16" class="privilege-grid">
+          <van-grid-item
+            v-for="privilege in memberPrivileges"
+            :key="privilege.id"
+            @click="handleServiceClick(privilege)"
+          >
+            <div class="privilege-card">
+              <div class="privilege-icon" :style="{ background: privilege.gradient }">
+                <van-icon :name="privilege.icon" size="24" color="white" />
+              </div>
+              <h3>{{ privilege.title }}</h3>
+              <p>{{ privilege.description }}</p>
+            </div>
+          </van-grid-item>
+        </van-grid>
+      </div>
+
+      <!-- 生活缴费的其他服务 -->
+      <div v-if="activeCategory === 0">
+        <!-- 汽车服务 -->
+        <div class="car-service-section">
+          <div class="section-header">
+            <h2>汽车服务</h2>
+            <van-icon name="arrow" />
+          </div>
+          
+          <!-- 营速2024活动 -->
+          <div class="car-activity">
+            <div class="activity-content">
+              <h3>「营速2024」</h3>
+              <p>内卷的尽头是抽象？</p>
+              <div class="stars">
+                <span v-for="i in 4" :key="i" class="star">✨</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 汽车品牌 -->
+          <div class="car-brands">
+            <div 
+              v-for="brand in carBrands" 
+              :key="brand.id"
+              class="brand-item"
+              @click="handleBrandClick(brand)"
+            >
+              <div class="brand-logo">{{ brand.logo }}</div>
+              <span>{{ brand.name }}</span>
+            </div>
+          </div>
+
+          <!-- 汽车服务项目 -->
+          <van-grid :column-num="2" :gutter="16" class="car-services">
+            <van-grid-item
+              v-for="service in carServices"
+              :key="service.id"
+              @click="handleServiceClick(service)"
+            >
+              <div class="car-service-card">
+                <div class="service-icon">
+                  <van-icon :name="service.icon" size="24" />
+                </div>
+                <h4>{{ service.title }}</h4>
+                <p>{{ service.description }}</p>
+              </div>
+            </van-grid-item>
+          </van-grid>
+        </div>
+
+        <!-- 出行礼遇 -->
+        <div class="travel-section">
+          <div class="section-header">
+            <h2>出行礼遇</h2>
+          </div>
+
+          <div class="travel-services">
+            <!-- 地铁公交 -->
+            <div class="travel-main-card" @click="handleServiceClick({type: 'metro'})">
+              <div class="card-content">
+                <h3>地铁公交</h3>
+                <p>绿色出行，随机立减</p>
+              </div>
+              <div class="card-image">
+                <van-icon name="logistics" size="40" color="#4A90E2" />
+              </div>
+            </div>
+
+            <!-- 其他出行服务 -->
+            <div class="travel-grid">
+              <div 
+                v-for="service in travelServices"
+                :key="service.id"
+                class="travel-card"
+                @click="handleServiceClick(service)"
+              >
+                <div class="travel-icon">
+                  <van-icon :name="service.icon" size="20" />
+                </div>
+                <h4>{{ service.title }}</h4>
+                <p>{{ service.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 便民服务 -->
+        <div class="convenience-section">
+          <van-grid :column-num="5" :gutter="12" class="convenience-grid">
+            <van-grid-item
+              v-for="item in conveniences"
+              :key="item.id"
+              @click="handleServiceClick(item)"
+            >
+              <div class="convenience-item">
+                <div class="convenience-icon" :style="{ background: item.gradient }">
+                  <van-icon :name="item.icon" size="20" color="white" />
+                </div>
+                <span>{{ item.title }}</span>
+              </div>
+            </van-grid-item>
+          </van-grid>
+        </div>
+      </div>
     </div>
 
     <!-- 底部标签栏 -->
-    <van-tabbar v-model="activeTab" fixed>
-      <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
-      <van-tabbar-item icon="shop-o" to="/life">生活</van-tabbar-item>
-      <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
-    </van-tabbar>
+  <BottomTabbar />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onActivated, computed } from 'vue'
+import { ref, onMounted, onActivated } from 'vue'
 import { useRoute } from 'vue-router'
 import { showToast } from 'vant'
+import BottomTabbar from '@/components/BottomTabbar.vue'
 
 const route = useRoute()
-
-// 根据当前路由计算activeTab
-const activeTab = computed(() => {
-  const routeToTabMap = {
-    '/home': 0,
-    '/wealth': 1,
-    '/life': 2,
-    '/cards': 3
-  }
-  return routeToTabMap[route.path] || 2
-})
 const activeCategory = ref(0)
 const searchValue = ref('')
 
@@ -213,6 +296,174 @@ const paymentServices = ref([
     description: '在线缴固话费',
     icon: '☎️',
     type: 'landline'
+  }
+])
+
+// 政务服务
+const governmentServices = ref([
+  {
+    id: 1,
+    title: '社保查询',
+    description: '查询社保缴费记录',
+    icon: '🏛️',
+    type: 'social_security'
+  },
+  {
+    id: 2,
+    title: '公积金查询',
+    description: '查询公积金余额',
+    icon: '🏦',
+    type: 'housing_fund'
+  },
+  {
+    id: 3,
+    title: '个税查询',
+    description: '个人所得税查询',
+    icon: '📊',
+    type: 'tax_query'
+  },
+  {
+    id: 4,
+    title: '违章查询',
+    description: '车辆违章查询',
+    icon: '🚗',
+    type: 'violation_query'
+  },
+  {
+    id: 5,
+    title: '证件办理',
+    description: '身份证等证件办理',
+    icon: '📄',
+    type: 'document_service'
+  },
+  {
+    id: 6,
+    title: '户籍服务',
+    description: '户口迁移等服务',
+    icon: '🏠',
+    type: 'household_service'
+  }
+])
+
+// 民生服务
+const livelihoodServices = ref([
+  {
+    id: 1,
+    title: '医保服务',
+    icon: 'certificate',
+    gradient: 'linear-gradient(135deg, #43E97B, #38F9D7)',
+    type: 'medical_insurance'
+  },
+  {
+    id: 2,
+    title: '教育缴费',
+    icon: 'certificate',
+    gradient: 'linear-gradient(135deg, #FA709A, #FEE140)',
+    type: 'education_fee'
+  },
+  {
+    id: 3,
+    title: '养老服务',
+    icon: 'like-o',
+    gradient: 'linear-gradient(135deg, #A8EDEA, #FED6E3)',
+    type: 'pension_service'
+  },
+  {
+    id: 4,
+    title: '就业服务',
+    icon: 'manager-o',
+    gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
+    type: 'employment_service'
+  },
+  {
+    id: 5,
+    title: '法律援助',
+    icon: 'balance-o',
+    gradient: 'linear-gradient(135deg, #f093fb, #f5576c)',
+    type: 'legal_aid'
+  },
+  {
+    id: 6,
+    title: '便民热线',
+    icon: 'phone-o',
+    gradient: 'linear-gradient(135deg, #4facfe, #00f2fe)',
+    type: 'hotline'
+  }
+])
+
+// 粉丝福利
+const fansBenefits = ref([
+  {
+    id: 1,
+    title: '新人专享大礼包',
+    description: '注册即送1000积分+专属优惠券',
+    icon: '🎁',
+    tag: '限时',
+    action: '立即领取',
+    type: 'newbie_gift'
+  },
+  {
+    id: 2,
+    title: '每日签到奖励',
+    description: '连续签到7天送神秘大奖',
+    icon: '📅',
+    tag: '每日',
+    action: '去签到',
+    type: 'daily_checkin'
+  },
+  {
+    id: 3,
+    title: '生日专属福利',
+    description: '生日当月享受专属折扣',
+    icon: '🎂',
+    tag: '专属',
+    action: '查看详情',
+    type: 'birthday_benefit'
+  },
+  {
+    id: 4,
+    title: '邀请好友奖励',
+    description: '邀请好友注册双方都有奖',
+    icon: '👥',
+    tag: '双赢',
+    action: '邀请好友',
+    type: 'invite_reward'
+  }
+])
+
+// 会员特权
+const memberPrivileges = ref([
+  {
+    id: 1,
+    title: 'VIP专属客服',
+    description: '7x24小时专属服务',
+    icon: 'service-o',
+    gradient: 'linear-gradient(135deg, #667eea, #764ba2)',
+    type: 'vip_service'
+  },
+  {
+    id: 2,
+    title: '免费提现',
+    description: '每月10次免费提现',
+    icon: 'gold-coin-o',
+    gradient: 'linear-gradient(135deg, #f9ca24, #f0932b)',
+    type: 'free_withdrawal'
+  },
+  {
+    id: 3,
+    title: '积分翻倍',
+    description: '消费积分双倍奖励',
+    icon: 'fire-o',
+    gradient: 'linear-gradient(135deg, #ff6b6b, #ee5a24)',
+    type: 'double_points'
+  },
+  {
+    id: 4,
+    title: '专属理财',
+    description: '高收益理财产品',
+    icon: 'diamond-o',
+    gradient: 'linear-gradient(135deg, #6c5ce7, #a29bfe)',
+    type: 'exclusive_finance'
   }
 ])
 
@@ -674,6 +925,174 @@ onActivated(() => {
 
 .travel-card p {
   font-size: 12px;
+  color: #666;
+  margin: 0;
+}
+
+/* 政务民生样式 */
+.government-services {
+  padding: 16px;
+}
+
+.government-grid .service-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.government-grid .service-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.livelihood-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.livelihood-item:hover {
+  transform: translateY(-2px);
+}
+
+.livelihood-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 8px;
+}
+
+.livelihood-item span {
+  font-size: 12px;
+  color: #333;
+  line-height: 1.2;
+}
+
+/* 粉丝福利样式 */
+.fans-benefits {
+  padding: 16px;
+}
+
+.benefits-banner {
+  background: linear-gradient(135deg, #FF6B6B, #FF8E8E);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 20px;
+  color: white;
+  text-align: center;
+}
+
+.banner-content h2 {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+}
+
+.banner-content p {
+  font-size: 14px;
+  margin: 0;
+  opacity: 0.9;
+}
+
+.benefits-list {
+  margin-bottom: 20px;
+}
+
+.benefit-card {
+  background: white;
+  border-radius: 12px;
+  padding: 16px;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.benefit-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.benefit-icon {
+  font-size: 32px;
+  margin-right: 16px;
+}
+
+.benefit-info {
+  flex: 1;
+}
+
+.benefit-info h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 4px 0;
+  color: #333;
+}
+
+.benefit-info p {
+  font-size: 14px;
+  color: #666;
+  margin: 0 0 8px 0;
+}
+
+.benefit-tag {
+  display: inline-block;
+  background: #FF6B6B;
+  color: white;
+  font-size: 12px;
+  padding: 2px 8px;
+  border-radius: 12px;
+}
+
+.benefit-action {
+  margin-left: 12px;
+}
+
+.privilege-card {
+  background: white;
+  border-radius: 12px;
+  padding: 20px;
+  text-align: center;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.privilege-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.privilege-icon {
+  width: 50px;
+  height: 50px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px auto;
+}
+
+.privilege-card h3 {
+  font-size: 16px;
+  font-weight: bold;
+  margin: 0 0 8px 0;
+  color: #333;
+}
+
+.privilege-card p {
+  font-size: 14px;
   color: #666;
   margin: 0;
 }

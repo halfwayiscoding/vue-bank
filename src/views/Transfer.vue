@@ -78,12 +78,7 @@
     </van-popup>
 
     <!-- 底部标签栏 -->
-    <van-tabbar v-model="activeTab" fixed>
-      <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
-      <van-tabbar-item icon="shop-o" to="/life">生活</van-tabbar-item>
-      <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
-    </van-tabbar>
+    <BottomTabbar />
   </div>
 </template>
 
@@ -91,9 +86,9 @@
 import { ref } from 'vue'
 import { useRouter } from 'vue-router'
 import { showToast, showConfirmDialog } from 'vant'
+import BottomTabbar from '@/components/BottomTabbar.vue'
 
 const router = useRouter()
-const activeTab = ref(1)
 const loading = ref(false)
 const showBankPicker = ref(false)
 

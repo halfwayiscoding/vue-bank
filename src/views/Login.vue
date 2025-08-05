@@ -128,9 +128,11 @@
 
 <script setup>
 import { ref, reactive, computed, onMounted, onUnmounted, nextTick } from 'vue'
-import { useRouter } from 'vue-router'
+import { useRouter, useRoute } from 'vue-router'
+import auth from '@/utils/auth'
 
 const router = useRouter()
+const route = useRoute()
 
 // ===== 响应式数据 =====
 const currentTime = ref('')
@@ -191,28 +193,20 @@ const updateTime = () => {
   })
 }
 
-// 表单验证
+// 表单验证 - 简化版：只要输入不为空就通过
 const validateField = (field) => {
   switch (field) {
     case 'username':
-      if (!formData.username) {
+      if (!formData.username || formData.username.trim() === '') {
         errors.username = '请输入用户名'
-        return false
-      }
-      if (formData.username.length < 3) {
-        errors.username = '用户名至少3个字符'
         return false
       }
       errors.username = ''
       return true
     
     case 'password':
-      if (!formData.password) {
+      if (!formData.password || formData.password.trim() === '') {
         errors.password = '请输入密码'
-        return false
-      }
-      if (formData.password.length < 6) {
-        errors.password = '密码至少6个字符'
         return false
       }
       errors.password = ''
@@ -274,32 +268,30 @@ const handleLogin = async () => {
   isLoading.value = true
   
   try {
-    // 模拟登录API调用
-    await new Promise(resolve => setTimeout(resolve, 2000))
+    // 使用auth工具进行登录
+    const loginData = await auth.login({
+      username: formData.username,
+      password: formData.password
+    })
     
-    // 模拟登录验证
-    if (formData.username === 'cloud' && formData.password === '123456') {
-      showToastMessage('登录成功！', 'success')
-      
-      // 保存登录状态
-      localStorage.setItem('isLoggedIn', 'true')
-      localStorage.setItem('username', formData.username)
-      
-      if (rememberPassword.value) {
-        localStorage.setItem('rememberedPassword', formData.password)
-      }
-      
-      // 延迟跳转，让用户看到成功消息
-      setTimeout(() => {
-        router.push('/home')
-      }, 1000)
-      
+    // 保存记住密码设置
+    if (rememberPassword.value) {
+      localStorage.setItem('rememberedPassword', formData.password)
     } else {
-      showToastMessage('用户名或密码错误', 'error')
+      localStorage.removeItem('rememberedPassword')
     }
     
+    // 获取重定向路径
+    const redirectPath = route.query.redirect || '/home'
+    
+    // 延迟跳转，让用户看到成功消息
+    setTimeout(() => {
+      router.push(redirectPath)
+    }, 1000)
+    
   } catch (error) {
-    showToastMessage('登录失败，请重试', 'error')
+    // auth工具已经显示了错误消息，这里不需要重复显示
+    console.error('Login failed:', error)
   } finally {
     isLoading.value = false
   }

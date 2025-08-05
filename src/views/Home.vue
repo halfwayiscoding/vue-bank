@@ -9,6 +9,9 @@
 
     <!-- 主要内容区域 -->
     <div class="content">
+      <!-- 用户信息 -->
+      <UserInfo />
+      
       <!-- 账户余额卡片 -->
       <div class="balance-card">
         <div class="balance-header">
@@ -106,6 +109,12 @@
           <h3>🛠️ 开发者演示</h3>
         </div>
         <div class="demo-grid">
+          <div class="demo-item" @click="goToPermissionDemo">
+            <div class="demo-icon permission">
+              <van-icon name="shield-o" size="20" />
+            </div>
+            <span>权限管理</span>
+          </div>
           <div class="demo-item" @click="goToComponentDemo">
             <div class="demo-icon component">
               <van-icon name="apps-o" size="20" />
@@ -174,36 +183,23 @@
           </van-cell>
         </van-cell-group>
       </div>
+
+
     </div>
 
     <!-- 底部标签栏 -->
-    <van-tabbar v-model="activeTab" fixed>
-      <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
-      <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
-      <van-tabbar-item icon="shop-o" to="/life">生活</van-tabbar-item>
-      <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
-    </van-tabbar>
+    <BottomTabbar />
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onActivated, computed } from 'vue'
-import { useRouter, useRoute } from 'vue-router'
+import { ref, onMounted, onActivated } from 'vue'
+import { useRouter } from 'vue-router'
 import { showToast } from 'vant'
+import BottomTabbar from '@/components/BottomTabbar.vue'
+import UserInfo from '@/components/UserInfo.vue'
 
 const router = useRouter()
-const route = useRoute()
-
-// 根据当前路由计算activeTab
-const activeTab = computed(() => {
-  const routeToTabMap = {
-    '/home': 0,
-    '/wealth': 1,
-    '/life': 2,
-    '/cards': 3
-  }
-  return routeToTabMap[route.path] || 0
-})
 const balance = ref(128888.88)
 const balanceVisible = ref(true)
 
@@ -350,6 +346,10 @@ const goToComputedDemo = () => {
   router.push('/computed-demo')
 }
 
+const goToPermissionDemo = () => {
+  router.push('/permission-demo')
+}
+
 const goToComponentDemo = () => {
   router.push('/component-demo')
 }
@@ -381,6 +381,8 @@ onMounted(() => {
 onActivated(() => {
   refreshData()
 })
+
+
 </script>
 
 <style scoped>
@@ -388,6 +390,9 @@ onActivated(() => {
   min-height: 100vh;
   background-color: #f5f5f5;
   padding-bottom: 60px;
+  /* 确保页面可以正常滚动 */
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
 }
 
 .content {
@@ -650,6 +655,10 @@ onActivated(() => {
   color: white;
 }
 
+.demo-icon.permission {
+  background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+}
+
 .demo-icon.render {
   background: linear-gradient(135deg, #667eea, #764ba2);
 }
@@ -734,4 +743,6 @@ onActivated(() => {
 .expense {
   color: #e84393 !important;
 }
+
+
 </style>

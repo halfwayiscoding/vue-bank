@@ -7,8 +7,8 @@ import App from './App.vue'
 import Vant from 'vant'
 import 'vant/lib/index.css'
 
-// 在桌面端使用触摸模拟器
-import '@vant/touch-emulator'
+// 在桌面端使用触摸模拟器 - 暂时禁用以避免滑动冲突
+// import '@vant/touch-emulator'
 
 const app = createApp(App)
 
