@@ -90,10 +90,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onActivated, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { showToast } from 'vant'
 
-const activeTab = ref(2)
+const route = useRoute()
+
+// 根据当前路由计算activeTab
+const activeTab = computed(() => {
+  const routeToTabMap = {
+    '/home': 0,
+    '/wealth': 1,
+    '/life': 2,
+    '/cards': 3
+  }
+  return routeToTabMap[route.path] || 3
+})
 
 // 卡片数据
 const cards = ref([
@@ -165,6 +177,22 @@ const showCardDetail = (card) => {
 const addCard = () => {
   showToast('申请新卡功能')
 }
+
+// 刷新页面数据
+const refreshData = () => {
+  console.log('卡片页面数据刷新')
+  // 这里可以添加实际的数据刷新逻辑，比如重新获取卡片信息
+}
+
+// 生命周期钩子
+onMounted(() => {
+  refreshData()
+})
+
+// 页面激活时刷新（用于tab切换）
+onActivated(() => {
+  refreshData()
+})
 </script>
 
 <style scoped>

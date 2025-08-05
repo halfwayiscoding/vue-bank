@@ -159,16 +159,28 @@
       <van-tabbar-item icon="wap-home-o" to="/home">首页</van-tabbar-item>
       <van-tabbar-item icon="gold-coin-o" to="/wealth">理财</van-tabbar-item>
       <van-tabbar-item icon="shop-o" to="/life">生活</van-tabbar-item>
-      <van-tabbar-item icon="user-o" @click="showToast('个人中心')">我的</van-tabbar-item>
+      <van-tabbar-item icon="credit-pay" to="/cards">卡片</van-tabbar-item>
     </van-tabbar>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onActivated, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { showToast } from 'vant'
 
-const activeTab = ref(2)
+const route = useRoute()
+
+// 根据当前路由计算activeTab
+const activeTab = computed(() => {
+  const routeToTabMap = {
+    '/home': 0,
+    '/wealth': 1,
+    '/life': 2,
+    '/cards': 3
+  }
+  return routeToTabMap[route.path] || 2
+})
 const activeCategory = ref(0)
 const searchValue = ref('')
 
@@ -353,8 +365,19 @@ const handleBrandClick = (brand) => {
   showToast(`选择品牌: ${brand.name}`)
 }
 
+// 刷新页面数据
+const refreshData = () => {
+  console.log('生活页面数据刷新')
+  // 这里可以添加实际的数据刷新逻辑，比如重新获取生活服务数据
+}
+
 onMounted(() => {
-  // 初始化数据
+  refreshData()
+})
+
+// 页面激活时刷新（用于tab切换）
+onActivated(() => {
+  refreshData()
 })
 </script>
 

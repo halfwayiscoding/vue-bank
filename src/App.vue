@@ -2,7 +2,12 @@
   <!-- 这就像iOS的根视图控制器 -->
   <div id="app">
     <!-- router-view 类似于 iOS 的 UINavigationController 的容器 -->
-    <router-view />
+    <!-- 使用 keep-alive 缓存页面组件，配合 onActivated 钩子实现页面刷新 -->
+    <router-view v-slot="{ Component }">
+      <keep-alive>
+        <component :is="Component" />
+      </keep-alive>
+    </router-view>
   </div>
 </template>
 

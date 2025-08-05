@@ -113,10 +113,22 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted, onActivated, computed } from 'vue'
+import { useRoute } from 'vue-router'
 import { showToast } from 'vant'
 
-const activeTab = ref(1)
+const route = useRoute()
+
+// 根据当前路由计算activeTab
+const activeTab = computed(() => {
+  const routeToTabMap = {
+    '/home': 0,
+    '/wealth': 1,
+    '/life': 2,
+    '/cards': 3
+  }
+  return routeToTabMap[route.path] || 1
+})
 
 // 推荐理财产品
 const recommendProducts = ref([
@@ -207,6 +219,22 @@ const handleProductClick = (product) => {
 const handleFundClick = (fund) => {
   showToast(`进入${fund.title}`)
 }
+
+// 刷新页面数据
+const refreshData = () => {
+  console.log('理财页面数据刷新')
+  // 这里可以添加实际的数据刷新逻辑，比如重新获取理财产品数据
+}
+
+// 生命周期钩子
+onMounted(() => {
+  refreshData()
+})
+
+// 页面激活时刷新（用于tab切换）
+onActivated(() => {
+  refreshData()
+})
 </script>
 
 <style scoped>

@@ -187,12 +187,23 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from 'vue'
-import { useRouter } from 'vue-router'
+import { ref, onMounted, onActivated, computed } from 'vue'
+import { useRouter, useRoute } from 'vue-router'
 import { showToast } from 'vant'
 
 const router = useRouter()
-const activeTab = ref(0)
+const route = useRoute()
+
+// 根据当前路由计算activeTab
+const activeTab = computed(() => {
+  const routeToTabMap = {
+    '/home': 0,
+    '/wealth': 1,
+    '/life': 2,
+    '/cards': 3
+  }
+  return routeToTabMap[route.path] || 0
+})
 const balance = ref(128888.88)
 const balanceVisible = ref(true)
 
@@ -354,6 +365,22 @@ const goToVueProxyDemo = () => {
 const goToPromiseDemo = () => {
   router.push('/promise-demo')
 }
+
+// 刷新页面数据
+const refreshData = () => {
+  console.log('首页数据刷新')
+  // 这里可以添加实际的数据刷新逻辑，比如重新获取账户余额、交易记录等
+}
+
+// 生命周期钩子
+onMounted(() => {
+  refreshData()
+})
+
+// 页面激活时刷新（用于tab切换）
+onActivated(() => {
+  refreshData()
+})
 </script>
 
 <style scoped>

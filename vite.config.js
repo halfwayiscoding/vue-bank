@@ -4,6 +4,21 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [vue()],
+  base: '/',
+  build: {
+    outDir: 'dist',
+    assetsDir: 'assets',
+    sourcemap: false,
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['vue', 'vue-router'],
+          vant: ['vant']
+        }
+      }
+    }
+  },
   resolve: {
     alias: {
       '@': resolve(__dirname, 'src')

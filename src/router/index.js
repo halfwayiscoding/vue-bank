@@ -2,7 +2,6 @@ import { createRouter, createWebHistory } from 'vue-router'
 
 // 导入页面组件（类似iOS的ViewController）
 import Home from '../views/Home.vue'
-import Login from '../views/Login.vue'
 import Account from '../views/Account.vue'
 import Transfer from '../views/Transfer.vue'
 import Cards from '../views/Cards.vue'
@@ -23,12 +22,7 @@ import PromiseDemo from '../views/PromiseDemo.vue'
 const routes = [
   {
     path: '/',
-    redirect: '/login' // 默认跳转到登录页
-  },
-  {
-    path: '/login',
-    name: 'Login',
-    component: Login
+    redirect: '/home' // 默认跳转到首页
   },
   {
     path: '/home',
