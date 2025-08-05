@@ -88,6 +88,26 @@ const routes = [
     path: '/promise-demo',
     name: 'PromiseDemo',
     component: PromiseDemo
+  },
+  {
+    path: '/interpolation-demo',
+    name: 'InterpolationDemo',
+    component: InterpolationDemo
+  },
+  {
+    path: '/ref-demo',
+    name: 'RefDemo',
+    component: RefDemo
+  },
+  {
+    path: '/style-demo',
+    name: 'StyleDemo',
+    component: StyleDemo
+  },
+  {
+    path: '/template-vs-script',
+    name: 'TemplateVsScript',
+    component: TemplateVsScript
   }
 ]
 
