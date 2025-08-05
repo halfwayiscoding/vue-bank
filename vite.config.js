@@ -4,7 +4,7 @@ import { resolve } from 'path'
 
 export default defineConfig({
   plugins: [vue()],
-  base: process.env.NODE_ENV === 'production' ? '/vue-bank/' : '/',
+  base: process.env.VERCEL ? '/' : (process.env.NODE_ENV === 'production' ? '/vue-bank/' : '/'),
   build: {
     outDir: 'dist',
     assetsDir: 'assets',

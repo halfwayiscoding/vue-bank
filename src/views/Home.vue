@@ -103,7 +103,8 @@
         </div>
       </div>
 
-      <!-- 开发者演示区域 -->
+      <!-- 开发者演示区域 - 已隐藏 -->
+      <!-- 
       <div class="developer-section">
         <div class="section-header">
           <h3>🛠️ 开发者演示</h3>
@@ -159,6 +160,7 @@
           </div>
         </div>
       </div>
+      -->
 
       <!-- 交易记录 -->
       <div class="transaction-section">
