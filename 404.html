@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <title>Vue Bank App</title>
+  <script type="text/javascript">
+    // GitHub Pages SPA 路由支持
+    // 将当前路径存储到 sessionStorage，然后重定向到根路径
+    // 这样 Vue Router 就能正确处理路由了
+    var pathSegmentsToKeep = 1;
+    var l = window.location;
+    l.replace(
+      l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+      l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+      l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+      (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+      l.hash
+    );
+  </script>
+</head>
+<body>
+  <div style="text-align: center; padding: 50px; font-family: Arial, sans-serif;">
+    <h2>🏦 Vue Bank App</h2>
+    <p>正在重定向到应用...</p>
+    <p>如果没有自动跳转，请点击 <a href="/vue-bank/">这里</a></p>
+  </div>
+</body>
+</html>
